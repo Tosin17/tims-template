@@ -1,35 +1,15 @@
-import * as http from "http";
+const express = require('express')
+const server = express()
+const port = 80
 
-const sql = require("mssql");
-const sqlConfig = {
-  user: "sa",
-  password: "tman19!*.",
-  database: "master",
-  server: "localhost",
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000,
-  },
-  options: {
-    encrypt: false,
-    trustServerCertificate: false,
-  },
-};
+import { getCustomers } from './src/db/queries'
 
-(async () => {
-  try {
-    await sql.connect(sqlConfig);
-    const result = await sql.query`select * from spt_monitor`;
-    console.dir(result);
-  } catch (e) {
-    throw e;
-  }
-})();
+server.get('/', (req: any, res: any) => {
+    getCustomers().then(({ recordset }) => {
+        res.json(recordset)
+    })
+})
 
-http
-  .createServer((_, res) => {
-    res.write("Working!");
-    res.end();
-  })
-  .listen(80);
+server.listen(port, () => {
+    console.log(`Listening on ${port}`)
+})
