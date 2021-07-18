@@ -1,6 +1,6 @@
 const express = require('express')
 const server = express()
-const port = 80
+const port = 5000
 
 import { getCustomers } from './src/db/queries'
 
