@@ -69,12 +69,12 @@ export async function getCustomersTypes() {
     }
 }
 
-export async function addCustomer(details: unknown) {
+export async function addCustomer(details: any = { name: 'abc' }) {
     try {
         const sql = await connectToDB()
         const result = await sql.query`INSERT INTO [Timothy].[dbo].[tblCustomer]
             (Name, Active, Date, CustomerStatusID, CustomerTypeID, Note, Archived, UserID, DateAdded, DateUpdated)
-            VALUES ('abc', 1, getdate(), 1, 2, 'Note', 0, 'Timothy', '2020-01-02 13:18:13.520', '2020-01-03 14:19:14.521')`
+            VALUES (${details.name}, 1, getdate(), 1, 2, 'Note', 0, 'Timothy', '2020-01-02 13:18:13.520', '2020-01-03 14:19:14.521')`
         return result
     } catch (e) {
         throw e

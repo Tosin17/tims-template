@@ -9,6 +9,7 @@ import {
     getActiveCustomersTypes,
     getCustomersStatus,
     getCustomersTypes,
+    addCustomer,
 } from './src/db/queries'
 
 server.get('/', async (req: express.Request, res: express.Response) => {
@@ -43,6 +44,16 @@ server.get(
             ? await getActiveCustomersTypes()
             : await getCustomersTypes()
         res.json(recordset)
+    }
+)
+
+server.get(
+    '/add-customer',
+    async (req: express.Request, res: express.Response) => {
+        const { rowsAffected } = await addCustomer()
+        rowsAffected && rowsAffected?.length
+            ? res.sendStatus(200)
+            : res.sendStatus(500)
     }
 )
 
