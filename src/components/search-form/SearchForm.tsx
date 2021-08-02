@@ -147,6 +147,7 @@ function SearchForm() {
                                         label="Blank"
                                         name="formHorizontalRadios"
                                         id="formHorizontalRadios1"
+                                        checked
                                     />
                                     <Form.Check
                                         type="radio"
