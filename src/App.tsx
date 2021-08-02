@@ -1,13 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import CustTab from './components/tabs/Tabs'
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Hi There!</h1>
-    </div>
-  );
+    return (
+        <div className="App">
+            <CustTab />
+        </div>
+    )
 }
 
-export default App;
+export default App
