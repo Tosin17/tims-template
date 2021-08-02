@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DatePicker from 'react-datepicker'
-import { Form, Row, Col, Button } from 'react-bootstrap'
+import { Form, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './SearchForm.css'
@@ -24,8 +24,8 @@ function SearchForm() {
             validationSchema={schema}
             onSubmit={console.log}
             initialValues={{
-                customerId: 'Mark',
-                name: 'Otto',
+                customerId: '',
+                name: '',
                 date: '',
                 active: false,
                 status: '',
@@ -43,136 +43,142 @@ function SearchForm() {
                 errors,
             }) => (
                 <Form noValidate onSubmit={handleSubmit} className="pt-4">
-                    <h4 className="pb-2">Search Form</h4>
-                    <Row className="mb-3 mr-3 pb-3">
-                        <Form.Group
-                            as={Col}
-                            md="1"
-                            controlId="validationFormik01CustId"
-                        >
-                            <Form.Label>CustomerId</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="customerId"
-                                value={values.customerId}
-                                onChange={handleChange}
-                                isValid={
-                                    touched.customerId && !errors.customerId
-                                }
-                            />
-                            <Form.Control.Feedback>
-                                Looks good!
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                            as={Col}
-                            md="2"
-                            controlId="validationFormik0Name"
-                        >
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                value={values.name}
-                                onChange={handleChange}
-                                isValid={touched.name && !errors.name}
-                            />
+                    <fieldset className="form-group border p-3">
+                        <legend className="w-auto">Search Form</legend>
+                        <Row className="mb-3 mr-3 pb-3">
+                            <Form.Group
+                                as={Col}
+                                md="1"
+                                controlId="validationFormik01CustId"
+                            >
+                                <Form.Label>CustomerId</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="customerId"
+                                    value={values.customerId}
+                                    onChange={handleChange}
+                                    isValid={
+                                        touched.customerId && !errors.customerId
+                                    }
+                                />
+                                <Form.Control.Feedback>
+                                    Looks good!
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group
+                                as={Col}
+                                md="2"
+                                controlId="validationFormik0Name"
+                            >
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isValid={touched.name && !errors.name}
+                                />
 
-                            <Form.Control.Feedback>
-                                Looks good!
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                            as={Col}
-                            md="2"
-                            controlId="validationFormikUsername"
-                        >
-                            <Form.Label>Date</Form.Label>
-                            <DatePicker
-                                placeholderText="DD-MMM-YYYY"
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date as any)}
-                                customInput={
-                                    <Form.Control
-                                        type="text"
-                                        name="date"
-                                        value={values.date}
-                                        onChange={handleChange}
-                                        isValid={touched.date && !errors.date}
-                                    />
-                                }
-                            ></DatePicker>
-                        </Form.Group>
-                        <Form.Group as={Col} md="1">
-                            <Form.Label>Active</Form.Label>
-                            <Form.Check
-                                required
-                                name="active"
-                                label="ignored"
-                                onChange={handleChange}
-                                isInvalid={!!errors.active}
-                                feedback={errors.active}
-                                id="validationFormik07"
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            as={Col}
-                            md="2"
-                            controlId="validationFormikStatus"
-                        >
-                            <Form.Label>Status</Form.Label>
-                            <Form.Select
-                                onChange={handleChange}
-                                isValid={touched.status && !errors.status}
+                                <Form.Control.Feedback>
+                                    Looks good!
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group
+                                as={Col}
+                                md="2"
+                                controlId="validationFormikUsername"
                             >
-                                <option>Select status</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group as={Col} md="2">
-                            <Form.Label>Type</Form.Label>
-                            <div
-                                className="d-flex justify-content-between"
-                                style={{ width: '110%' }}
-                            >
-                                <Form.Check
-                                    type="radio"
-                                    label="Blank"
-                                    name="formHorizontalRadios"
-                                    id="formHorizontalRadios1"
-                                />
-                                <Form.Check
-                                    type="radio"
-                                    label="Type A"
-                                    name="formHorizontalRadios"
-                                    id="formHorizontalRadios2"
-                                />
-                                <Form.Check
-                                    type="radio"
-                                    label="Type B"
-                                    name="formHorizontalRadios"
-                                    id="formHorizontalRadios3"
-                                />
-                            </div>
-                        </Form.Group>
-                        <Form.Group as={Col} md="1">
-                            <div className="_pl-5">
-                                <Form.Label>Archived</Form.Label>
+                                <Form.Label>Date</Form.Label>
+                                <DatePicker
+                                    placeholderText="DD-MMM-YYYY"
+                                    selected={startDate}
+                                    onChange={(date) =>
+                                        setStartDate(date as any)
+                                    }
+                                    customInput={
+                                        <Form.Control
+                                            type="text"
+                                            name="date"
+                                            value={values.date}
+                                            onChange={handleChange}
+                                            isValid={
+                                                touched.date && !errors.date
+                                            }
+                                        />
+                                    }
+                                ></DatePicker>
+                            </Form.Group>
+                            <Form.Group as={Col} md="1">
+                                <Form.Label>Active</Form.Label>
                                 <Form.Check
                                     required
-                                    name="archived"
-                                    label="Unchecked"
+                                    name="active"
+                                    label="ignored"
                                     onChange={handleChange}
-                                    isInvalid={!!errors.archived}
-                                    feedback={errors.archived}
-                                    id="validationFormik02"
+                                    isInvalid={!!errors.active}
+                                    feedback={errors.active}
+                                    id="validationFormik07"
                                 />
-                            </div>
-                        </Form.Group>
-                    </Row>
-                    {/* <Button type="submit">Submit form</Button> */}
+                            </Form.Group>
+                            <Form.Group
+                                as={Col}
+                                md="2"
+                                controlId="validationFormikStatus"
+                            >
+                                <Form.Label>Status</Form.Label>
+                                <Form.Select
+                                    onChange={handleChange}
+                                    isValid={touched.status && !errors.status}
+                                >
+                                    <option>Select status</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group as={Col} md="2">
+                                <Form.Label>Type</Form.Label>
+                                <div
+                                    className="d-flex justify-content-between"
+                                    style={{ width: '110%' }}
+                                >
+                                    <Form.Check
+                                        type="radio"
+                                        label="Blank"
+                                        name="formHorizontalRadios"
+                                        id="formHorizontalRadios1"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Type A"
+                                        name="formHorizontalRadios"
+                                        id="formHorizontalRadios2"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Type B"
+                                        name="formHorizontalRadios"
+                                        id="formHorizontalRadios3"
+                                    />
+                                </div>
+                            </Form.Group>
+                            <Form.Group as={Col} md="1">
+                                <div className="_pl-5">
+                                    <Form.Label>Archived</Form.Label>
+                                    <Form.Check
+                                        required
+                                        name="archived"
+                                        label="Unchecked"
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.archived}
+                                        feedback={errors.archived}
+                                        id="validationFormik02"
+                                    />
+                                </div>
+                            </Form.Group>
+                        </Row>
+                        {/* <Button type="submit">Submit form</Button> */}
+                    </fieldset>
                 </Form>
             )}
         </Formik>
