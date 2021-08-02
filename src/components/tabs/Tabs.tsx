@@ -1,4 +1,5 @@
 import { Tabs, Tab, Button } from 'react-bootstrap'
+import AddForm from '../add-form/AddForm'
 import SearchForm from '../search-form/SearchForm'
 
 function CustTab() {
@@ -14,6 +15,7 @@ function CustTab() {
                         Refresh
                     </Button>{' '}
                     <SearchForm />
+                    <AddForm />
                 </Tab>
                 {/* <Tab eventKey="profile" title="Profile">
                     <h1>Tab 2</h1>
