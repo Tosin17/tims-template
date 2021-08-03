@@ -50,7 +50,7 @@ server.get(
 server.get(
     '/add-customer',
     async (req: express.Request, res: express.Response) => {
-        const { rowsAffected } = await addCustomer()
+        const { rowsAffected } = await addCustomer(req.params)
         rowsAffected && rowsAffected?.length
             ? res.sendStatus(200)
             : res.sendStatus(500)

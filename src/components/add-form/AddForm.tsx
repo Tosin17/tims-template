@@ -5,6 +5,8 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './AddForm.css'
+import { postData } from '../../utils/api'
+import { date } from '../../utils/date-utils'
 
 const schema = yup.object().shape({
     name: yup.string().required(),
@@ -12,10 +14,10 @@ const schema = yup.object().shape({
     active: yup.bool().required().oneOf([true], 'Field is required'),
     status: yup.string().required(),
     type: yup.string().required(),
-    addArchived: yup.bool().required().oneOf([true], 'Field is required'),
+    archived: yup.bool().required().oneOf([true], 'Field is required'),
 })
 
-function AddForm() {
+function AddForm(props: any = { add: true }) {
     const [startDate, setStartDate] = useState()
 
     return (
@@ -28,7 +30,9 @@ function AddForm() {
                 active: false,
                 status: '',
                 type: '',
-                addArchived: false,
+                archived: false,
+                dateAdded: '',
+                dateUpdated: '',
             }}
         >
             {({
@@ -51,6 +55,18 @@ function AddForm() {
                             ).toDateString()
                         }
                         handleSubmit(e)
+
+                        if (Object.values(errors).length) {
+                            return
+                        }
+
+                        props.add
+                            ? (values.dateAdded = date('long'))
+                            : (values.dateUpdated = date('long'))
+
+                        postData(undefined, values).then((v) => {
+                            console.log(v)
+                        })
                     }}
                     className="pt-4"
                 >
@@ -126,9 +142,10 @@ function AddForm() {
                                     isInvalid={!!errors.status}
                                 >
                                     <option>Select status</option>
-                                    <option value="none">None</option>
-                                    <option value="A">Status A</option>
-                                    <option value="B">Status B</option>
+                                    <option value="0">None</option>
+                                    <option value="2">Status A</option>
+                                    <option value="1">Status B</option>
+                                    <option value="3">Status Inactive</option>
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">
                                     {errors.status}
@@ -145,7 +162,7 @@ function AddForm() {
                                         type="radio"
                                         label="Type A"
                                         name="type"
-                                        value="A"
+                                        value="2"
                                         onChange={handleChange}
                                         id="Addform.formHorizontalRadios2"
                                     />
@@ -153,7 +170,7 @@ function AddForm() {
                                         type="radio"
                                         label="Type B"
                                         name="type"
-                                        value="B"
+                                        value="1"
                                         onChange={handleChange}
                                         id="addForm.formHorizontalRadios3"
                                     />
@@ -170,10 +187,10 @@ function AddForm() {
                                     <Form.Label>Archived</Form.Label>
                                     <Form.Check
                                         required
-                                        name="addArchived"
+                                        name="archived"
                                         onChange={handleChange}
-                                        isInvalid={!!errors.addArchived}
-                                        feedback={errors.addArchived}
+                                        isInvalid={!!errors.archived}
+                                        feedback={errors.archived}
                                         id="addform.validationFormik02"
                                     />
                                 </div>
