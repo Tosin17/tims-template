@@ -68,7 +68,7 @@ function SearchForm() {
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormik0Name"
+                                controlId="searchFormModal.validationFormik0Name"
                             >
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -86,7 +86,7 @@ function SearchForm() {
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormikUsername"
+                                controlId="searchForm.validationFormikUsername"
                             >
                                 <Form.Label>Date</Form.Label>
                                 <DatePicker
@@ -117,13 +117,13 @@ function SearchForm() {
                                     onChange={handleChange}
                                     isInvalid={!!errors.active}
                                     feedback={errors.active}
-                                    id="validationFormik07"
+                                    id="searchFormModal.validationFormik07"
                                 />
                             </Form.Group>
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormikStatus"
+                                controlId="searchForm.validationFormikStatus"
                             >
                                 <Form.Label>Status</Form.Label>
                                 <Form.Select
@@ -152,13 +152,13 @@ function SearchForm() {
                                         type="radio"
                                         label="Type A"
                                         name="formHorizontalRadios"
-                                        id="formHorizontalRadios2"
+                                        id="searchForm.formHorizontalRadios2"
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Type B"
                                         name="formHorizontalRadios"
-                                        id="formHorizontalRadios3"
+                                        id="searchForm.formHorizontalRadios3"
                                     />
                                 </div>
                             </Form.Group>
@@ -172,7 +172,7 @@ function SearchForm() {
                                         onChange={handleChange}
                                         isInvalid={!!errors.archived}
                                         feedback={errors.archived}
-                                        id="validationFormik02"
+                                        id="SearchForm.ValidationFormik02"
                                     />
                                 </div>
                             </Form.Group>

@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DatePicker from 'react-datepicker'
-import { Form, Row, Col, Button } from 'react-bootstrap'
+import { Form, Row, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './AddFormModal.css'
@@ -46,7 +46,7 @@ function AddFormModal() {
                 <Form noValidate onSubmit={handleSubmit}>
                     <fieldset className="form-group p-3">
                         <Row className="mb-3 mr-3 pb-3">
-                            <Form.Group controlId="validationFormik0Name">
+                            <Form.Group controlId="addFormModal.validationFormik0Name">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -60,7 +60,7 @@ function AddFormModal() {
                                     Looks good!
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group controlId="validationFormikUsername">
+                            <Form.Group controlId="addFormModal.validationFormikUsername">
                                 <Form.Label>Date</Form.Label>
                                 <DatePicker
                                     placeholderText="DD-MMM-YYYY"
@@ -89,10 +89,10 @@ function AddFormModal() {
                                     onChange={handleChange}
                                     isInvalid={!!errors.active}
                                     feedback={errors.active}
-                                    id="validationFormik07"
+                                    id="addFormModal.validationFormik07"
                                 />
                             </Form.Group>
-                            <Form.Group controlId="validationFormikStatus">
+                            <Form.Group controlId="addFormModal.validationFormikStatus">
                                 <Form.Label>Status</Form.Label>
                                 <Form.Select
                                     onChange={handleChange}
@@ -111,13 +111,13 @@ function AddFormModal() {
                                         type="radio"
                                         label="Type A"
                                         name="formHorizontalRadios"
-                                        id="formHorizontalRadios2"
+                                        id="AddFormModal.formHorizontalRadios2"
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Type B"
                                         name="formHorizontalRadios"
-                                        id="formHorizontalRadios3"
+                                        id="addFormModal.formHorizontalRadios3"
                                     />
                                 </div>
                             </Form.Group>
@@ -129,7 +129,7 @@ function AddFormModal() {
                                     onChange={handleChange}
                                     isInvalid={!!errors.addArchived}
                                     feedback={errors.addArchived}
-                                    id="validationFormik02"
+                                    id="addFormModal.validationFormik02"
                                 />
                             </Form.Group>
                             <Form.Group

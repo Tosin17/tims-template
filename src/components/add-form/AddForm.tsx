@@ -23,7 +23,6 @@ function AddForm() {
             validationSchema={schema}
             onSubmit={console.log}
             initialValues={{
-                customerId: '',
                 name: '',
                 date: '',
                 active: false,
@@ -41,14 +40,28 @@ function AddForm() {
                 isValid,
                 errors,
             }) => (
-                <Form noValidate onSubmit={handleSubmit} className="pt-4">
+                <Form
+                    autoComplete="off"
+                    noValidate
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        if (startDate) {
+                            values.date = (
+                                startDate as unknown as Date
+                            ).toDateString()
+                        }
+                        console.log(values, errors)
+                        handleSubmit(e)
+                    }}
+                    className="pt-4"
+                >
                     <fieldset className="form-group border p-3">
                         <legend className="w-auto">Add</legend>
                         <Row className="mb-3 mr-3 pb-3">
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormik0Name"
+                                controlId="addForm.validationFormik0Name"
                             >
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -56,37 +69,37 @@ function AddForm() {
                                     name="name"
                                     value={values.name}
                                     onChange={handleChange}
-                                    isValid={touched.name && !errors.name}
+                                    isInvalid={!!errors.name}
                                 />
 
-                                <Form.Control.Feedback>
-                                    Looks good!
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.name}
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormikUsername"
+                                controlId="addForm.validationFormikUsername"
                             >
                                 <Form.Label>Date</Form.Label>
                                 <DatePicker
                                     placeholderText="DD-MMM-YYYY"
                                     selected={startDate}
-                                    onChange={(date) =>
+                                    onChange={(date) => {
                                         setStartDate(date as any)
-                                    }
+                                    }}
                                     customInput={
                                         <Form.Control
                                             type="text"
                                             name="date"
                                             value={values.date}
-                                            onChange={handleChange}
-                                            isValid={
-                                                touched.date && !errors.date
-                                            }
+                                            isInvalid={!!errors.date}
                                         />
                                     }
                                 ></DatePicker>
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.date}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="1">
                                 <Form.Label>Active</Form.Label>
@@ -96,24 +109,29 @@ function AddForm() {
                                     onChange={handleChange}
                                     isInvalid={!!errors.active}
                                     feedback={errors.active}
-                                    id="validationFormik07"
+                                    id="addForm.validationFormik07"
                                 />
                             </Form.Group>
                             <Form.Group
                                 as={Col}
                                 md="2"
-                                controlId="validationFormikStatus"
+                                controlId="addForm.validationFormikStatus"
                             >
                                 <Form.Label>Status</Form.Label>
                                 <Form.Select
+                                    name="status"
+                                    value={values.status}
                                     onChange={handleChange}
-                                    isValid={touched.status && !errors.status}
+                                    isInvalid={!!errors.status}
                                 >
                                     <option>Select status</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="none">None</option>
+                                    <option value="A">Status A</option>
+                                    <option value="B">Status B</option>
                                 </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.status}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group
                                 as={Col}
@@ -125,16 +143,23 @@ function AddForm() {
                                     <Form.Check
                                         type="radio"
                                         label="Type A"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios2"
+                                        name="type"
+                                        value="A"
+                                        onChange={handleChange}
+                                        id="Addform.formHorizontalRadios2"
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Type B"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios3"
+                                        name="type"
+                                        value="B"
+                                        onChange={handleChange}
+                                        id="addForm.formHorizontalRadios3"
                                     />
                                 </div>
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.type}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <div className="_pl-5">
@@ -145,12 +170,12 @@ function AddForm() {
                                         onChange={handleChange}
                                         isInvalid={!!errors.addArchived}
                                         feedback={errors.addArchived}
-                                        id="validationFormik02"
+                                        id="addform.validationFormik02"
                                     />
                                 </div>
                             </Form.Group>
                         </Row>
-                        <Button type="submit">Submit form</Button>
+                        <Button type="submit">Add</Button>
                     </fieldset>
                 </Form>
             )}
