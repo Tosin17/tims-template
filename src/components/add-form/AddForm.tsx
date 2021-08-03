@@ -11,7 +11,7 @@ const schema = yup.object().shape({
     date: yup.string().required(),
     active: yup.bool().required().oneOf([true], 'Field is required'),
     status: yup.string().required(),
-    type: yup.bool().required().oneOf([true], 'Field is required'),
+    type: yup.string().required(),
     addArchived: yup.bool().required().oneOf([true], 'Field is required'),
 })
 
@@ -21,7 +21,7 @@ function AddForm() {
     return (
         <Formik
             validationSchema={schema}
-            onSubmit={console.log}
+            onSubmit={(values) => console.log(values)}
             initialValues={{
                 name: '',
                 date: '',
@@ -50,7 +50,6 @@ function AddForm() {
                                 startDate as unknown as Date
                             ).toDateString()
                         }
-                        console.log(values, errors)
                         handleSubmit(e)
                     }}
                     className="pt-4"
@@ -92,8 +91,10 @@ function AddForm() {
                                         <Form.Control
                                             type="text"
                                             name="date"
-                                            value={values.date}
-                                            isInvalid={!!errors.date}
+                                            value={startDate}
+                                            isInvalid={
+                                                touched.date && !startDate
+                                            }
                                         />
                                     }
                                 ></DatePicker>
@@ -157,7 +158,10 @@ function AddForm() {
                                         id="addForm.formHorizontalRadios3"
                                     />
                                 </div>
-                                <Form.Control.Feedback type="invalid">
+                                <Form.Control.Feedback
+                                    type="invalid"
+                                    style={{ display: 'block' }}
+                                >
                                     {errors.type}
                                 </Form.Control.Feedback>
                             </Form.Group>
