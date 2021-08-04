@@ -5,7 +5,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './AddForm.css'
-import { postData } from '../../utils/api'
+import { postData, _axios } from '../../utils/api'
 import { date } from '../../utils/date-utils'
 
 const schema = yup.object().shape({
@@ -17,13 +17,13 @@ const schema = yup.object().shape({
     archived: yup.bool().required().oneOf([true], 'Field is required'),
 })
 
-function AddForm(props: any = { add: true }) {
+function AddForm(props: any) {
     const [startDate, setStartDate] = useState()
 
     return (
         <Formik
             validationSchema={schema}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={console.log}
             initialValues={{
                 name: '',
                 date: '',
@@ -56,17 +56,22 @@ function AddForm(props: any = { add: true }) {
                         }
                         handleSubmit(e)
 
-                        if (Object.values(errors).length) {
+                        if (
+                            Object.values(errors).length ||
+                            !values.name ||
+                            !values.date
+                        ) {
                             return
                         }
 
-                        props.add
-                            ? (values.dateAdded = date('long'))
-                            : (values.dateUpdated = date('long'))
-
-                        postData(undefined, values).then((v) => {
-                            console.log(v)
-                        })
+                        _axios
+                            .post('add-customer', values)
+                            .then((v) => {
+                                console.log(v)
+                            })
+                            .catch((e) => {
+                                console.log(e)
+                            })
                     }}
                     className="pt-4"
                 >

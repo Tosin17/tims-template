@@ -78,9 +78,7 @@ export async function addCustomer(details: any) {
             details.status
         }, ${details.type}, ${details.note}, ${Number(
             details.archived
-        )}, ${Date.now().toString()}, ${details.dateAdded}, ${
-            details.dateUpdated
-        })`
+        )}, ${Date.now().toString()}, getdate(), getdate())`
         return result
     } catch (e) {
         throw e

@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 const server = express()
 const port = 5000
 
@@ -11,6 +12,10 @@ import {
     getCustomersTypes,
     addCustomer,
 } from './src/db/queries'
+
+server.use(express.json())
+server.use(express.urlencoded({ extended: true }))
+server.use(cors())
 
 server.get('/', async (req: express.Request, res: express.Response) => {
     const { recordset } = await getCustomers()
@@ -47,10 +52,10 @@ server.get(
     }
 )
 
-server.get(
+server.post(
     '/add-customer',
     async (req: express.Request, res: express.Response) => {
-        const { rowsAffected } = await addCustomer(req.params)
+        const { rowsAffected } = await addCustomer(req.body)
         rowsAffected && rowsAffected?.length
             ? res.sendStatus(200)
             : res.sendStatus(500)
