@@ -68,6 +68,9 @@ function AddForm(props: any) {
                             .then((v) => {
                                 console.log(v)
                             })
+                            .then((v) => {
+                                props.getCustomers()
+                            })
                             .catch((e) => {
                                 console.log(e)
                             })

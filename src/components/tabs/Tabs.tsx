@@ -44,7 +44,7 @@ function CustTab() {
                         Refresh
                     </Button>{' '}
                     <SearchForm />
-                    <AddForm />
+                    <AddForm getCustomers={getCustomers} />
                     <UsersList data={customers} />
                 </Tab>
                 {customers.length ? (
