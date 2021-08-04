@@ -5,8 +5,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './AddForm.css'
-import { postData, _axios } from '../../utils/api'
-import { date } from '../../utils/date-utils'
+import { _axios } from '../../utils/api'
 
 const schema = yup.object().shape({
     name: yup.string().required(),
@@ -129,7 +128,9 @@ function AddForm(props: any) {
                                     required
                                     name="active"
                                     onChange={handleChange}
-                                    isInvalid={!!errors.active}
+                                    isInvalid={
+                                        !!(touched.active && errors.active)
+                                    }
                                     feedback={errors.active}
                                     id="addForm.validationFormik07"
                                 />
@@ -144,7 +145,9 @@ function AddForm(props: any) {
                                     name="status"
                                     value={values.status}
                                     onChange={handleChange}
-                                    isInvalid={!!errors.status}
+                                    isInvalid={
+                                        !!(touched.status && errors.status)
+                                    }
                                 >
                                     <option>Select status</option>
                                     <option value="0">None</option>
@@ -182,7 +185,11 @@ function AddForm(props: any) {
                                 </div>
                                 <Form.Control.Feedback
                                     type="invalid"
-                                    style={{ display: 'block' }}
+                                    style={{
+                                        display: !!(touched.type && errors.type)
+                                            ? 'block'
+                                            : 'none',
+                                    }}
                                 >
                                     {errors.type}
                                 </Form.Control.Feedback>
@@ -194,7 +201,12 @@ function AddForm(props: any) {
                                         required
                                         name="archived"
                                         onChange={handleChange}
-                                        isInvalid={!!errors.archived}
+                                        isInvalid={
+                                            !!(
+                                                touched.archived &&
+                                                errors.archived
+                                            )
+                                        }
                                         feedback={errors.archived}
                                         id="addform.validationFormik02"
                                     />

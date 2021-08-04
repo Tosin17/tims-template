@@ -35,7 +35,6 @@ function mapFn(data: any[]) {
 
 function UsersList(props: any) {
     const rowData: any = mapFn(props.data)
-    console.log(mapFn(props.data))
 
     return (
         <div
