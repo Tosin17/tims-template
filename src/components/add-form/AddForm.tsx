@@ -10,10 +10,10 @@ import { _axios } from '../../utils/api'
 const schema = yup.object().shape({
     name: yup.string().required(),
     date: yup.string().required(),
-    active: yup.bool().required().oneOf([true], 'Field is required'),
+    active: yup.bool(),
     status: yup.string().required(),
     type: yup.string().required(),
-    archived: yup.bool().required().oneOf([true], 'Field is required'),
+    archived: yup.bool(),
 })
 
 function AddForm(props: any) {
@@ -37,11 +37,13 @@ function AddForm(props: any) {
             {({
                 handleSubmit,
                 handleChange,
+                handleReset,
                 handleBlur,
                 values,
                 touched,
                 isValid,
                 errors,
+                resetForm,
             }) => (
                 <Form
                     autoComplete="off"
@@ -63,17 +65,11 @@ function AddForm(props: any) {
                             return
                         }
 
-                        _axios
-                            .post('add-customer', values)
-                            .then((v) => {
-                                console.log(v)
-                            })
-                            .then((v) => {
-                                props.getCustomers()
-                            })
-                            .catch((e) => {
-                                console.log(e)
-                            })
+                        _axios.post('add-customer', values).then((v) => {
+                            props.getCustomers()
+                            handleReset(e)
+                            setStartDate(null as any)
+                        })
                     }}
                     className="pt-4"
                 >
@@ -131,6 +127,7 @@ function AddForm(props: any) {
                                     required
                                     name="active"
                                     onChange={handleChange}
+                                    checked={values.active}
                                     isInvalid={
                                         !!(touched.active && errors.active)
                                     }
@@ -173,6 +170,7 @@ function AddForm(props: any) {
                                         type="radio"
                                         label="Type A"
                                         name="type"
+                                        checked={values.type === '2'}
                                         value="2"
                                         onChange={handleChange}
                                         id="Addform.formHorizontalRadios2"
@@ -180,6 +178,7 @@ function AddForm(props: any) {
                                     <Form.Check
                                         type="radio"
                                         label="Type B"
+                                        checked={values.type === '1'}
                                         name="type"
                                         value="1"
                                         onChange={handleChange}
@@ -203,6 +202,7 @@ function AddForm(props: any) {
                                     <Form.Check
                                         required
                                         name="archived"
+                                        checked={values.archived}
                                         onChange={handleChange}
                                         isInvalid={
                                             !!(
