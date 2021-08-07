@@ -11,14 +11,9 @@ function CustTab() {
     const [customers, setCustomers] = useState([])
 
     function getCustomers() {
-        _axios
-            .get('')
-            .then((v: any) => {
-                setCustomers(v.data)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+        _axios.get('').then((v: any) => {
+            setCustomers(v.data)
+        })
     }
 
     useEffect(() => {
@@ -48,8 +43,8 @@ function CustTab() {
                     <UsersList data={customers} />
                 </Tab>
                 {customers.length ? (
-                    <Tab eventKey="profile" title="Profile">
-                        <h1>Tab 2</h1>
+                    <Tab eventKey="profile" title="History">
+                        <h1>History Tab</h1>
                     </Tab>
                 ) : (
                     ''
