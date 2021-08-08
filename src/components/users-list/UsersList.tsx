@@ -36,7 +36,7 @@ function mapFn(data: any[]) {
 
 const EditLink = (props: ICellRendererParams) => (
     <a
-        href="#"
+        href="/"
         onClick={(e) => {
             e.preventDefault()
             document.dispatchEvent(
