@@ -74,11 +74,11 @@ export async function addCustomer(details: any) {
         const sql = await connectToDB()
         const result = await sql.query`INSERT INTO [Timothy].[dbo].[tblCustomer]
             (Name, Active, Date, CustomerStatusID, CustomerTypeID, Note, Archived, UserID, DateAdded, DateUpdated)
-            VALUES (${details.name}, ${details.active}, getdate(), ${
-            details.status
-        }, ${details.type}, ${details.note}, ${Number(
+            VALUES (${details.name}, ${details.active}, ${
+            new Date(details.date) || new Date()
+        }, ${details.status}, ${details.type}, ${details.note}, ${Number(
             details.archived
-        )}, ${Date.now().toString()}, getdate(), getdate())`
+        )}, ${Date.now()}, getdate(), getdate())`
         return result
     } catch (e) {
         throw e

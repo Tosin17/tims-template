@@ -9,7 +9,7 @@ import { _axios } from '../../utils/api'
 
 const schema = yup.object().shape({
     name: yup.string().required(),
-    date: yup.string().required(),
+    date: yup.string(),
     active: yup.bool(),
     status: yup.string().required(),
     type: yup.string().required(),
@@ -81,7 +81,7 @@ function AddForm(props: any) {
                                 md="2"
                                 controlId="addForm.validationFormik0Name"
                             >
-                                <Form.Label>Name</Form.Label>
+                                <Form.Label>Name*</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="name"
@@ -111,15 +111,9 @@ function AddForm(props: any) {
                                             type="text"
                                             name="date"
                                             value={startDate}
-                                            isInvalid={
-                                                touched.date && !startDate
-                                            }
                                         />
                                     }
                                 ></DatePicker>
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.date}
-                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group as={Col} md="1">
                                 <Form.Label>Active</Form.Label>
@@ -140,7 +134,7 @@ function AddForm(props: any) {
                                 md="2"
                                 controlId="addForm.validationFormikStatus"
                             >
-                                <Form.Label>Status</Form.Label>
+                                <Form.Label>Status*</Form.Label>
                                 <Form.Select
                                     name="status"
                                     value={values.status}
@@ -149,8 +143,7 @@ function AddForm(props: any) {
                                         !!(touched.status && errors.status)
                                     }
                                 >
-                                    <option>Select status</option>
-                                    <option value="0">None</option>
+                                    <option value="">None</option>
                                     <option value="2">Status A</option>
                                     <option value="1">Status B</option>
                                     <option value="3">Status Inactive</option>
@@ -164,7 +157,7 @@ function AddForm(props: any) {
                                 md="2"
                                 style={{ width: '12.5rem' }}
                             >
-                                <Form.Label>Type</Form.Label>
+                                <Form.Label>Type*</Form.Label>
                                 <div className="d-flex justify-content-between">
                                     <Form.Check
                                         type="radio"
