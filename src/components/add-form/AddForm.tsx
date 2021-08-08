@@ -71,10 +71,21 @@ function AddForm(props: any) {
                             setStartDate(null as any)
                         })
                     }}
-                    className="pt-4"
+                    className={props.isModal ? '' : 'pt-4'}
                 >
-                    <fieldset className="form-group border p-3">
-                        <legend className="w-auto">Add</legend>
+                    <fieldset
+                        className={
+                            props.isModal
+                                ? 'form-group p-3'
+                                : 'form-group border p-3'
+                        }
+                    >
+                        {props.isModal ? (
+                            ''
+                        ) : (
+                            <legend className="w-auto">Add</legend>
+                        )}
+
                         <Row className="mb-3 mr-3 pb-3">
                             <Form.Group
                                 as={Col}
@@ -209,7 +220,11 @@ function AddForm(props: any) {
                                 </div>
                             </Form.Group>
                         </Row>
-                        <Button type="submit">Add</Button>
+                        {props.isModal ? (
+                            ''
+                        ) : (
+                            <Button type="submit">Add</Button>
+                        )}
                     </fieldset>
                 </Form>
             )}
