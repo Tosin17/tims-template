@@ -10,8 +10,7 @@ function AddModal(props: any) {
             </Modal.Header>
             <Modal.Body>
                 <AddFormModal
-                    mode={''}
-                    data={{}}
+                    formData={props.formData}
                     getCustomers={props.getCustomers}
                 />
             </Modal.Body>

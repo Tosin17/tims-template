@@ -18,6 +18,16 @@ const schema = yup.object().shape({
 
 function AddForm(props: any) {
     const [startDate, setStartDate] = useState()
+    const status: any = {
+        'Status A': '2',
+        'Status B': '1',
+        'N/A': 0,
+    }
+
+    const type: any = {
+        'Type A': '2',
+        'Type B': '1',
+    }
 
     function addCustomer(values: any, handleReset: Function) {
         _axios.post('add-customer', values).then((_) => {
@@ -32,15 +42,17 @@ function AddForm(props: any) {
             validationSchema={schema}
             onSubmit={console.log}
             initialValues={{
-                name: '',
-                date: '',
-                active: false,
-                status: '',
-                type: '',
-                archived: false,
-                dateAdded: '',
-                dateUpdated: '',
-                note: '',
+                name: props.formData?.name || '',
+                date: props.formData?.date
+                    ? new Date(props.formData?.date)
+                    : '',
+                active: props.formData?.active || false,
+                status: status[props.formData?.status] || '',
+                type: type[props.formData?.type] || '',
+                archived: props.formData?.archived || false,
+                dateAdded: props.formData?.dateAdded || '',
+                dateUpdated: props.formData?.dateUpdated || '',
+                note: props.formData?.note || '',
             }}
         >
             {({
