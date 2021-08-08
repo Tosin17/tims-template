@@ -65,7 +65,7 @@ function AddForm(props: any) {
                             return
                         }
 
-                        _axios.post('add-customer', values).then((v) => {
+                        _axios.post('add-customer', values).then((_) => {
                             props.getCustomers()
                             handleReset(e)
                             setStartDate(null as any)

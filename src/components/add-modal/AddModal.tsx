@@ -10,7 +10,7 @@ function AddModal(props: any) {
                     <Modal.Title>Add</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AddFormModal />
+                    <AddFormModal mode={''} data={{}} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={props.handleClose}>

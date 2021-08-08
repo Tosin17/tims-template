@@ -16,7 +16,7 @@ const schema = yup.object().shape({
     notes: yup.string(),
 })
 
-function AddFormModal() {
+function AddFormModal(props: any) {
     const [startDate, setStartDate] = useState()
 
     return (
