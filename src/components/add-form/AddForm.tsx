@@ -19,6 +19,14 @@ const schema = yup.object().shape({
 function AddForm(props: any) {
     const [startDate, setStartDate] = useState()
 
+    function addCustomer(values: any, handleReset: Function) {
+        _axios.post('add-customer', values).then((_) => {
+            props.getCustomers()
+            handleReset()
+            setStartDate(null as any)
+        })
+    }
+
     return (
         <Formik
             validationSchema={schema}
@@ -32,201 +40,235 @@ function AddForm(props: any) {
                 archived: false,
                 dateAdded: '',
                 dateUpdated: '',
+                note: '',
             }}
         >
             {({
                 handleSubmit,
                 handleChange,
                 handleReset,
-                handleBlur,
                 values,
                 touched,
-                isValid,
                 errors,
-                resetForm,
             }) => (
-                <Form
-                    autoComplete="off"
-                    noValidate
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        if (startDate) {
-                            values.date = (
-                                startDate as unknown as Date
-                            ).toDateString()
-                        }
-                        handleSubmit(e)
+                <>
+                    <Form
+                        autoComplete="off"
+                        noValidate
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            if (startDate) {
+                                values.date = (
+                                    startDate as unknown as Date
+                                ).toDateString()
+                            }
+                            handleSubmit(e)
 
-                        if (
-                            Object.values(errors).length ||
-                            !values.name ||
-                            !values.date
-                        ) {
-                            return
-                        }
+                            if (
+                                Object.values(errors).length ||
+                                !values.name ||
+                                !values.date
+                            ) {
+                                return
+                            }
 
-                        _axios.post('add-customer', values).then((_) => {
-                            props.getCustomers()
-                            handleReset(e)
-                            setStartDate(null as any)
-                        })
-                    }}
-                    className={props.isModal ? '' : 'pt-4'}
-                >
-                    <fieldset
-                        className={
-                            props.isModal
-                                ? 'form-group p-3'
-                                : 'form-group border p-3'
-                        }
+                            addCustomer(values, handleReset)
+                        }}
+                        className={props.isModal ? '' : 'pt-4'}
                     >
-                        {props.isModal ? (
-                            ''
-                        ) : (
-                            <legend className="w-auto">Add</legend>
-                        )}
+                        <fieldset
+                            className={
+                                props.isModal
+                                    ? 'form-group p-3'
+                                    : 'form-group border p-3'
+                            }
+                        >
+                            {props.isModal ? (
+                                ''
+                            ) : (
+                                <legend className="w-auto">Add</legend>
+                            )}
 
-                        <Row className="mb-3 mr-3 pb-3">
-                            <Form.Group
-                                as={Col}
-                                md="2"
-                                controlId="addForm.validationFormik0Name"
+                            <Row
+                                className={
+                                    props.isModal
+                                        ? 'mb-3 mr-3 pb-3 modal-layout'
+                                        : 'mb-3 mr-3 pb-3'
+                                }
                             >
-                                <Form.Label>Name*</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="name"
-                                    value={values.name}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.name}
-                                />
+                                <Form.Group
+                                    as={Col}
+                                    md="2"
+                                    controlId="addForm.validationFormik0Name"
+                                >
+                                    <Form.Label>Name*</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="name"
+                                        value={values.name}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.name}
+                                    />
 
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.name}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group
-                                as={Col}
-                                md="2"
-                                controlId="addForm.validationFormikUsername"
-                            >
-                                <Form.Label>Date</Form.Label>
-                                <DatePicker
-                                    placeholderText="DD-MMM-YYYY"
-                                    selected={startDate}
-                                    onChange={(date) => {
-                                        setStartDate(date as any)
-                                    }}
-                                    customInput={
-                                        <Form.Control
-                                            type="text"
-                                            name="date"
-                                            value={startDate}
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.name}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group
+                                    as={Col}
+                                    md="2"
+                                    controlId="addForm.validationFormikUsername"
+                                >
+                                    <div className="d-flex flex-column">
+                                        <Form.Label>Date</Form.Label>
+                                        <DatePicker
+                                            placeholderText="DD-MMM-YYYY"
+                                            selected={startDate}
+                                            onChange={(date) => {
+                                                setStartDate(date as any)
+                                            }}
+                                            customInput={
+                                                <Form.Control
+                                                    type="text"
+                                                    name="date"
+                                                    value={startDate}
+                                                />
+                                            }
+                                        ></DatePicker>
+                                    </div>
+                                </Form.Group>
+                                <Form.Group as={Col} md="1">
+                                    <div className="checkboxfield-active">
+                                        <Form.Label>Active</Form.Label>
+                                        <Form.Check
+                                            required
+                                            name="active"
+                                            onChange={handleChange}
+                                            checked={values.active}
+                                            isInvalid={
+                                                !!(
+                                                    touched.active &&
+                                                    errors.active
+                                                )
+                                            }
+                                            feedback={errors.active}
+                                            id="addForm.validationFormik07"
                                         />
-                                    }
-                                ></DatePicker>
-                            </Form.Group>
-                            <Form.Group as={Col} md="1">
-                                <Form.Label>Active</Form.Label>
-                                <Form.Check
-                                    required
-                                    name="active"
-                                    onChange={handleChange}
-                                    checked={values.active}
-                                    isInvalid={
-                                        !!(touched.active && errors.active)
-                                    }
-                                    feedback={errors.active}
-                                    id="addForm.validationFormik07"
-                                />
-                            </Form.Group>
-                            <Form.Group
-                                as={Col}
-                                md="2"
-                                controlId="addForm.validationFormikStatus"
-                            >
-                                <Form.Label>Status*</Form.Label>
-                                <Form.Select
-                                    name="status"
-                                    value={values.status}
-                                    onChange={handleChange}
-                                    isInvalid={
-                                        !!(touched.status && errors.status)
-                                    }
+                                    </div>
+                                </Form.Group>
+                                <Form.Group
+                                    as={Col}
+                                    md="2"
+                                    controlId="addForm.validationFormikStatus"
                                 >
-                                    <option value="">None</option>
-                                    <option value="2">Status A</option>
-                                    <option value="1">Status B</option>
-                                    <option value="3">Status Inactive</option>
-                                </Form.Select>
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.status}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group
-                                as={Col}
-                                md="2"
-                                style={{ width: '12.5rem' }}
-                            >
-                                <Form.Label>Type*</Form.Label>
-                                <div className="d-flex justify-content-between">
-                                    <Form.Check
-                                        type="radio"
-                                        label="Type A"
-                                        name="type"
-                                        checked={values.type === '2'}
-                                        value="2"
-                                        onChange={handleChange}
-                                        id="Addform.formHorizontalRadios2"
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Type B"
-                                        checked={values.type === '1'}
-                                        name="type"
-                                        value="1"
-                                        onChange={handleChange}
-                                        id="addForm.formHorizontalRadios3"
-                                    />
-                                </div>
-                                <Form.Control.Feedback
-                                    type="invalid"
-                                    style={{
-                                        display: !!(touched.type && errors.type)
-                                            ? 'block'
-                                            : 'none',
-                                    }}
-                                >
-                                    {errors.type}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group as={Col} md="2">
-                                <div className="_pl-5">
-                                    <Form.Label>Archived</Form.Label>
-                                    <Form.Check
-                                        required
-                                        name="archived"
-                                        checked={values.archived}
+                                    <Form.Label>Status*</Form.Label>
+                                    <Form.Select
+                                        name="status"
+                                        value={values.status}
                                         onChange={handleChange}
                                         isInvalid={
-                                            !!(
-                                                touched.archived &&
-                                                errors.archived
-                                            )
+                                            !!(touched.status && errors.status)
                                         }
-                                        feedback={errors.archived}
-                                        id="addform.validationFormik02"
-                                    />
-                                </div>
-                            </Form.Group>
-                        </Row>
-                        {props.isModal ? (
-                            ''
-                        ) : (
-                            <Button type="submit">Add</Button>
-                        )}
-                    </fieldset>
-                </Form>
+                                    >
+                                        <option value="">None</option>
+                                        <option value="2">Status A</option>
+                                        <option value="1">Status B</option>
+                                        <option value="3">
+                                            Status Inactive
+                                        </option>
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.status}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group
+                                    as={Col}
+                                    md="2"
+                                    style={{ width: '12.5rem' }}
+                                >
+                                    <Form.Label>Type*</Form.Label>
+                                    <div className="d-flex justify-content-between">
+                                        <Form.Check
+                                            type="radio"
+                                            label="Type A"
+                                            name="type"
+                                            checked={values.type === '2'}
+                                            value="2"
+                                            onChange={handleChange}
+                                            id="Addform.formHorizontalRadios2"
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="Type B"
+                                            checked={values.type === '1'}
+                                            name="type"
+                                            value="1"
+                                            onChange={handleChange}
+                                            id="addForm.formHorizontalRadios3"
+                                        />
+                                    </div>
+                                    <Form.Control.Feedback
+                                        type="invalid"
+                                        style={{
+                                            display: !!(
+                                                touched.type && errors.type
+                                            )
+                                                ? 'block'
+                                                : 'none',
+                                        }}
+                                    >
+                                        {errors.type}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={Col} md="2">
+                                    <div
+                                        className={
+                                            props.isModal
+                                                ? 'checkboxfield-archived'
+                                                : '_pl-5'
+                                        }
+                                    >
+                                        <Form.Label>Archived</Form.Label>
+                                        <Form.Check
+                                            required
+                                            name="archived"
+                                            checked={values.archived}
+                                            onChange={handleChange}
+                                            isInvalid={
+                                                !!(
+                                                    touched.archived &&
+                                                    errors.archived
+                                                )
+                                            }
+                                            feedback={errors.archived}
+                                            id="addform.validationFormik02"
+                                        />
+                                    </div>
+                                </Form.Group>
+                                {props.isModal ? (
+                                    <Form.Group>
+                                        <Form.Label>Note</Form.Label>
+                                        <Form.Control
+                                            as="textarea"
+                                            name="note"
+                                            value={values.note}
+                                            onChange={handleChange}
+                                            placeholder="Leave a note here"
+                                            style={{ height: '100px' }}
+                                        />
+                                    </Form.Group>
+                                ) : (
+                                    ''
+                                )}
+                            </Row>
+                            {props.isModal ? (
+                                ''
+                            ) : (
+                                <Button type="submit">Add</Button>
+                            )}
+                        </fieldset>
+                    </Form>
+                </>
             )}
         </Formik>
     )

@@ -9,3 +9,24 @@ legend {
 ._pl-5 {
     padding-left: 3rem;
 }
+
+.modal-layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-layout > div {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.modal-layout .checkboxfield-active,
+.checkboxfield-archived {
+    display: flex;
+    margin-top: 0.5rem;
+}
+
+.modal-layout .checkboxfield-active label,
+.checkboxfield-archived label {
+    margin-right: 1rem;
+}
