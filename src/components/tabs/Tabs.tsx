@@ -9,6 +9,8 @@ import UsersList from '../users-list/UsersList'
 function CustTab() {
     const [show, setShow] = useState(false)
     const [customers, setCustomers] = useState([])
+    const [editMode, setEditMode] = useState(false)
+    const [formData, setFormData] = useState(null)
 
     function getCustomers() {
         _axios.get('').then((v: any) => {
@@ -23,9 +25,20 @@ function CustTab() {
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
+    ;(document as any).addEventListener('EditModalForm', ({ detail }: any) => {
+        handleShow()
+        setEditMode(true)
+        setFormData(detail)
+    })
+
     return (
         <div className="p-3 mt-3">
-            <AddModal show={show} handleClose={handleClose} />
+            <AddModal
+                show={show}
+                editMode={editMode}
+                formData={formData}
+                handleClose={handleClose}
+            />
 
             <Tabs defaultActiveKey="list" id="listId" className="mb-3">
                 <Tab eventKey="list" title="List">

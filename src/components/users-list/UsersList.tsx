@@ -35,7 +35,16 @@ function mapFn(data: any[]) {
 }
 
 const EditLink = (props: ICellRendererParams) => (
-    <a href="#" onClick={(e) => e.preventDefault} className="text-primary">
+    <a
+        href="#"
+        onClick={(e) => {
+            e.preventDefault()
+            document.dispatchEvent(
+                new CustomEvent('EditModalForm', { detail: props.node.data })
+            )
+        }}
+        className="text-primary"
+    >
         {props.value}
     </a>
 )
