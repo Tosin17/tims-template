@@ -38,6 +38,7 @@ function CustTab() {
                 editMode={editMode}
                 formData={formData}
                 handleClose={handleClose}
+                getCustomers={getCustomers}
             />
 
             <Tabs defaultActiveKey="list" id="listId" className="mb-3">

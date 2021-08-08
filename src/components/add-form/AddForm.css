@@ -30,3 +30,9 @@ legend {
 .checkboxfield-archived label {
     margin-right: 1rem;
 }
+
+.move-submitbtn {
+    position: absolute;
+    right: 25px;
+    bottom: -55px;
+}

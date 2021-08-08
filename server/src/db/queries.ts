@@ -75,7 +75,7 @@ export async function addCustomer(details: any) {
         const result = await sql.query`INSERT INTO [Timothy].[dbo].[tblCustomer]
             (Name, Active, Date, CustomerStatusID, CustomerTypeID, Note, Archived, UserID, DateAdded, DateUpdated)
             VALUES (${details.name}, ${details.active}, ${
-            new Date(details.date) || new Date()
+            details.date ? new Date(details.date) : new Date()
         }, ${details.status}, ${details.type}, ${details.note}, ${Number(
             details.archived
         )}, ${Date.now()}, getdate(), getdate())`

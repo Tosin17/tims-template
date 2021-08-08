@@ -9,14 +9,19 @@ function AddModal(props: any) {
                 <Modal.Title>Add</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <AddFormModal mode={''} data={{}} />
+                <AddFormModal
+                    mode={''}
+                    data={{}}
+                    getCustomers={props.getCustomers}
+                />
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.handleClose}>
+                <Button
+                    variant="secondary"
+                    style={{ marginRight: '90px' }}
+                    onClick={props.handleClose}
+                >
                     Close
-                </Button>
-                <Button variant="primary" onClick={console.log}>
-                    Add
                 </Button>
             </Modal.Footer>
         </Modal>

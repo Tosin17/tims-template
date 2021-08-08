@@ -64,11 +64,7 @@ function AddForm(props: any) {
                             }
                             handleSubmit(e)
 
-                            if (
-                                Object.values(errors).length ||
-                                !values.name ||
-                                !values.date
-                            ) {
+                            if (Object.values(errors).length || !values.name) {
                                 return
                             }
 
@@ -261,11 +257,14 @@ function AddForm(props: any) {
                                     ''
                                 )}
                             </Row>
-                            {props.isModal ? (
-                                ''
-                            ) : (
-                                <Button type="submit">Add</Button>
-                            )}
+                            <Button
+                                className={
+                                    props.isModal ? 'move-submitbtn' : ''
+                                }
+                                type="submit"
+                            >
+                                Add
+                            </Button>
                         </fieldset>
                     </Form>
                 </>
