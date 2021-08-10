@@ -112,7 +112,7 @@ function UsersList(props: any) {
                 <AgGridColumn field="dateAdded" width={300}></AgGridColumn>
                 <AgGridColumn field="userId"></AgGridColumn>
                 <AgGridColumn field="dateUpdated" width={300}></AgGridColumn>
-                <AgGridColumn field="Note"></AgGridColumn>
+                <AgGridColumn field="note"></AgGridColumn>
             </AgGridReact>
         </div>
     )

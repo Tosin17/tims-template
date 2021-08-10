@@ -17,7 +17,10 @@ const schema = yup.object().shape({
 })
 
 function AddForm(props: any) {
-    const [startDate, setStartDate] = useState()
+    const date: any = props.formData?.date
+        ? new Date(props.formData?.date)
+        : null
+    const [startDate, setStartDate] = useState(date)
     const status: any = {
         'Status A': '2',
         'Status B': '1',
@@ -43,9 +46,7 @@ function AddForm(props: any) {
             onSubmit={console.log}
             initialValues={{
                 name: props.formData?.name || '',
-                date: props.formData?.date
-                    ? new Date(props.formData?.date)
-                    : '',
+                date: '',
                 active: props.formData?.active || false,
                 status: status[props.formData?.status] || '',
                 type: type[props.formData?.type] || '',

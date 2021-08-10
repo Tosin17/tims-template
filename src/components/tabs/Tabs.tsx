@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 import { _axios } from '../../utils/api'
+import { noop } from '../../utils/helpers'
 import AddForm from '../add-form/AddForm'
 import AddModal from '../add-modal/AddModal'
 import SearchForm from '../search-form/SearchForm'
@@ -21,6 +22,10 @@ function CustTab() {
     useEffect(() => {
         getCustomers()
     }, [])
+
+    useEffect(() => {
+        show ? noop() : setFormData(null)
+    }, [show])
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
