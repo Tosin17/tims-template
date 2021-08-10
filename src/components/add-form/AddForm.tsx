@@ -17,6 +17,7 @@ const schema = yup.object().shape({
 })
 
 function AddForm(props: any) {
+    const isEditMode = !!props.formData
     const date: any = props.formData?.date
         ? new Date(props.formData?.date)
         : null
@@ -37,6 +38,12 @@ function AddForm(props: any) {
             props.getCustomers()
             handleReset()
             setStartDate(null as any)
+        })
+    }
+
+    function editCustomer(values: any) {
+        _axios.put('edit-customer', values).then((_) => {
+            props.getCustomers()
         })
     }
 
@@ -70,18 +77,27 @@ function AddForm(props: any) {
                         noValidate
                         onSubmit={(e) => {
                             e.preventDefault()
+
+                            const _values = {
+                                id: props.formData?.id || null,
+                                userId: props.formData?.userId || null,
+                                ...values,
+                            }
+
                             if (startDate) {
-                                values.date = (
+                                _values.date = (
                                     startDate as unknown as Date
                                 ).toDateString()
                             }
                             handleSubmit(e)
 
-                            if (Object.values(errors).length || !values.name) {
+                            if (Object.values(errors).length || !_values.name) {
                                 return
                             }
 
-                            addCustomer(values, handleReset)
+                            isEditMode
+                                ? editCustomer(_values)
+                                : addCustomer(_values, handleReset)
                         }}
                         className={props.isModal ? '' : 'pt-4'}
                     >
@@ -276,7 +292,7 @@ function AddForm(props: any) {
                                 }
                                 type="submit"
                             >
-                                Add
+                                {isEditMode ? 'Edit' : 'Add'}
                             </Button>
                         </fieldset>
                     </Form>

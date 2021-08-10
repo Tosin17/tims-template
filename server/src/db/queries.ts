@@ -84,3 +84,25 @@ export async function addCustomer(details: any) {
         throw e
     }
 }
+
+export async function editCustomer(details: any) {
+    try {
+        const sql = await connectToDB()
+        const result = await sql.query`UPDATE [Timothy].[dbo].[tblCustomer] SET
+        Name=${details.name},
+        Active=${details.active},
+        Date=${details.date ? new Date(details.date) : new Date()},
+        CustomerStatusID=${details.status},
+        CustomerTypeID=${details.type},
+        Note=${details.note},
+        Archived=${Number(details.archived)},
+        UserID=${details.userId},
+        DateAdded=${details.DateAdded},
+        DateUpdated=getDate()
+        where CustomerID=${details.id}`
+
+        return result
+    } catch (e) {
+        throw e
+    }
+}

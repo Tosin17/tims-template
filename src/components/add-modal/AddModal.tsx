@@ -6,7 +6,7 @@ function AddModal(props: any) {
     return (
         <Modal show={props.show} onHide={props.handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add</Modal.Title>
+                <Modal.Title>{!!props.formData ? 'Edit' : 'Add'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <AddFormModal

@@ -11,6 +11,7 @@ import {
     getCustomersStatus,
     getCustomersTypes,
     addCustomer,
+    editCustomer,
 } from './src/db/queries'
 
 server.use(express.json())
@@ -49,6 +50,16 @@ server.get(
             ? await getActiveCustomersTypes()
             : await getCustomersTypes()
         res.json(recordset)
+    }
+)
+
+server.put(
+    '/edit-customer',
+    async (req: express.Request, res: express.Response) => {
+        const { rowsAffected } = await editCustomer(req.body)
+        rowsAffected && rowsAffected?.length
+            ? res.sendStatus(200)
+            : res.sendStatus(500)
     }
 )
 

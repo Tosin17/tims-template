@@ -19,8 +19,8 @@ function mapFn(data: any[]) {
         1: 'Type B',
     }
 
-    return data.map((v, i) => ({
-        edit: ++i,
+    return data.map((v) => ({
+        id: v.CustomerID,
         active: v.Active,
         archived: v.Archived,
         name: v.Name,
@@ -94,7 +94,8 @@ function UsersList(props: any) {
                 rowData={rowData}
             >
                 <AgGridColumn
-                    field="edit"
+                    field="id"
+                    headerName="Edit"
                     cellRenderer="EditLink"
                 ></AgGridColumn>
                 <AgGridColumn field="name"></AgGridColumn>
