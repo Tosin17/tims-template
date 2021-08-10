@@ -1,11 +1,12 @@
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DatePicker from 'react-datepicker'
-import { Form, Row, Col, Button } from 'react-bootstrap'
-import { useState } from 'react'
+import { Form, Row, Col, Button, Alert } from 'react-bootstrap'
+import { useState, useEffect } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './AddForm.css'
 import { _axios } from '../../utils/api'
+import { noop } from '../../utils/helpers'
 
 const schema = yup.object().shape({
     name: yup.string().required(),
@@ -22,6 +23,8 @@ function AddForm(props: any) {
         ? new Date(props.formData?.date)
         : null
     const [startDate, setStartDate] = useState(date)
+    const [showAlert, setShowAlert] = useState(false)
+
     const status: any = {
         'Status A': '2',
         'Status B': '1',
@@ -36,6 +39,7 @@ function AddForm(props: any) {
     function addCustomer(values: any, handleReset: Function) {
         _axios.post('add-customer', values).then((_) => {
             props.getCustomers()
+            setShowAlert(true)
             handleReset()
             setStartDate(null as any)
         })
@@ -44,8 +48,13 @@ function AddForm(props: any) {
     function editCustomer(values: any) {
         _axios.put('edit-customer', values).then((_) => {
             props.getCustomers()
+            setShowAlert(true)
         })
     }
+
+    useEffect(() => {
+        showAlert ? setTimeout(() => setShowAlert(false), 5000) : noop()
+    }, [showAlert])
 
     return (
         <Formik
@@ -108,6 +117,15 @@ function AddForm(props: any) {
                                     : 'form-group border p-3'
                             }
                         >
+                            {showAlert ? (
+                                <Alert variant="success">
+                                    Successfully{' '}
+                                    {isEditMode ? 'Updated!' : 'Added'}
+                                </Alert>
+                            ) : (
+                                ''
+                            )}
+
                             {props.isModal ? (
                                 ''
                             ) : (
