@@ -69,6 +69,17 @@ export async function getCustomersTypes() {
     }
 }
 
+export async function deleteCustomer(id: number) {
+    try {
+        const sql = await connectToDB()
+        const result =
+            await sql.query`DELETE Timothy.dbo.tblCustomer WHERE CustomerID=${id}`
+        return result
+    } catch (e) {
+        throw e
+    }
+}
+
 export async function addCustomer(details: any) {
     try {
         const sql = await connectToDB()

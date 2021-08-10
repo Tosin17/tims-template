@@ -12,6 +12,7 @@ import {
     getCustomersTypes,
     addCustomer,
     editCustomer,
+    deleteCustomer,
 } from './src/db/queries'
 
 server.use(express.json())
@@ -57,6 +58,16 @@ server.put(
     '/edit-customer',
     async (req: express.Request, res: express.Response) => {
         const { rowsAffected } = await editCustomer(req.body)
+        rowsAffected && rowsAffected?.length
+            ? res.sendStatus(200)
+            : res.sendStatus(500)
+    }
+)
+
+server.delete(
+    '/delete-customer',
+    async (req: express.Request, res: express.Response) => {
+        const { rowsAffected } = await deleteCustomer(req.body)
         rowsAffected && rowsAffected?.length
             ? res.sendStatus(200)
             : res.sendStatus(500)
