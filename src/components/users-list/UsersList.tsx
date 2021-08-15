@@ -1,6 +1,6 @@
 import React from 'react'
 import { AgGridColumn, AgGridReact } from 'ag-grid-react'
-import { Form } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import * as dateFns from 'date-fns'
@@ -87,11 +87,20 @@ function UsersList(props: any) {
             className="ag-theme-alpine border p-3 mt-5"
             style={{ height: 400 }}
         >
-            <legend>LIST</legend>
-
+            <legend>CUSTOMER LIST</legend>
+            <Button variant="primary" disabled={!props.data.length}>
+                Export
+            </Button>{' '}
+            <br />
+            <br />
             <AgGridReact
                 frameworkComponents={frameworkComponents}
                 rowData={rowData}
+                defaultColDef={{
+                    filter: true,
+                    sortable: true,
+                    floatingFilter: true,
+                }}
             >
                 <AgGridColumn
                     field="id"

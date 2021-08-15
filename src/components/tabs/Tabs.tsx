@@ -51,13 +51,7 @@ function CustTab() {
                     <Button variant="primary" onClick={handleShow}>
                         Add
                     </Button>{' '}
-                    <Button variant="primary" disabled={!customers.length}>
-                        Export
-                    </Button>{' '}
-                    <Button variant="primary" disabled={!customers.length}>
-                        Refresh
-                    </Button>{' '}
-                    <SearchForm />
+                    <SearchForm customers="customers" />
                     {show ? '' : <AddForm getCustomers={getCustomers} />}
                     <UsersList data={customers} />
                 </Tab>

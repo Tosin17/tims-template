@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DatePicker from 'react-datepicker'
-import { Form, Row, Col } from 'react-bootstrap'
+import { Form, Row, Col, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import './SearchForm.css'
@@ -16,7 +16,7 @@ const schema = yup.object().shape({
     archived: yup.bool().required().oneOf([true], 'Archived'),
 })
 
-function SearchForm() {
+function SearchForm(props: any) {
     const [startDate, setStartDate] = useState()
 
     return (
@@ -44,7 +44,15 @@ function SearchForm() {
             }) => (
                 <Form noValidate onSubmit={handleSubmit} className="pt-4">
                     <fieldset className="form-group border p-3">
-                        <legend className="w-auto">Search</legend>
+                        <legend>Search</legend>
+                        <Button
+                            variant="primary"
+                            disabled={!props.customers.length}
+                        >
+                            Refresh
+                        </Button>{' '}
+                        <br />
+                        <br />
                         <Row className="mb-3 mr-3 pb-3">
                             <Form.Group
                                 as={Col}
