@@ -25,12 +25,14 @@ function AddForm(props: any) {
     const [startDate, setStartDate] = useState(date)
     const [showAlert, setShowAlert] = useState(false)
 
+    // @TODO getValues from DB
     const status: any = {
         'Status A': '2',
         'Status B': '1',
         'N/A': 0,
     }
 
+    // @TODO getValues from DB
     const type: any = {
         'Type A': '2',
         'Type B': '1',

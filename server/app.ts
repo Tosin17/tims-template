@@ -1,7 +1,5 @@
 import express from 'express'
 import cors from 'cors'
-const server = express()
-const port = 5000
 
 import {
     getCustomers,
@@ -14,6 +12,8 @@ import {
     editCustomer,
     deleteCustomer,
 } from './src/db/queries'
+const server = express()
+const port = 5000
 
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
