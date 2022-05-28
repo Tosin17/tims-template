@@ -4,7 +4,7 @@ import AddFormModal from '../add-form-modal/AddFormModal'
 
 function AddModal(props: any) {
     return (
-        <Modal show={props.show} onHide={props.handleClose}>
+        <Modal show={props.show} onHide={props.handleClose} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>{!!props.formData ? 'Edit' : 'Add'}</Modal.Title>
             </Modal.Header>

@@ -24,19 +24,16 @@ function AddForm(props: any) {
         : null
     const [startDate, setStartDate] = useState(date)
     const [showAlert, setShowAlert] = useState(false)
-
-    // @TODO getValues from DB
-    const status: any = {
+    const [status, setStatus] = useState({
         'Status A': '2',
         'Status B': '1',
         'N/A': 0,
-    }
+    } as any)
 
-    // @TODO getValues from DB
-    const type: any = {
+    const [type, setTypes] = useState({
         'Type A': '2',
         'Type B': '1',
-    }
+    } as any)
 
     function addCustomer(values: any, handleReset: Function) {
         _axios.post('add-customer', values).then((_) => {
@@ -54,9 +51,34 @@ function AddForm(props: any) {
         })
     }
 
+    function getCustomerTypes() {
+        _axios.get('customer-types').then((t) => {
+            const r = t.data.reduce((acc: any, curr: any) => {
+                acc[curr.Name] = curr.CustomerStatusID
+                return acc
+            }, {})
+            setTypes(r)
+        })
+    }
+
+    function getCustomerStatus() {
+        _axios.get('customer-status').then((s: any) => {
+            const r = s.data.reduce((acc: any, curr: any) => {
+                acc[curr.Name] = curr.CustomerTypeID
+                return acc
+            }, {})
+            setStatus(r)
+        })
+    }
+
     useEffect(() => {
         showAlert ? setTimeout(() => setShowAlert(false), 5000) : noop()
     }, [showAlert])
+
+    useEffect(() => {
+        getCustomerTypes()
+        getCustomerStatus()
+    }, [])
 
     return (
         <Formik
@@ -216,11 +238,13 @@ function AddForm(props: any) {
                                         }
                                     >
                                         <option value="">None</option>
-                                        <option value="2">Status A</option>
-                                        <option value="1">Status B</option>
-                                        <option value="3">
-                                            Status Inactive
-                                        </option>
+                                        {Object.entries(status).map(
+                                            ([k, v]: [any, any], i) => (
+                                                <option key={i} value={v}>
+                                                    {k}
+                                                </option>
+                                            )
+                                        )}
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
                                         {errors.status}
@@ -233,24 +257,22 @@ function AddForm(props: any) {
                                 >
                                     <Form.Label>Type*</Form.Label>
                                     <div className="d-flex justify-content-between">
-                                        <Form.Check
-                                            type="radio"
-                                            label="Type A"
-                                            name="type"
-                                            checked={values.type === '2'}
-                                            value="2"
-                                            onChange={handleChange}
-                                            id="Addform.formHorizontalRadios2"
-                                        />
-                                        <Form.Check
-                                            type="radio"
-                                            label="Type B"
-                                            checked={values.type === '1'}
-                                            name="type"
-                                            value="1"
-                                            onChange={handleChange}
-                                            id="addForm.formHorizontalRadios3"
-                                        />
+                                        {Object.entries(type).map(
+                                            ([k, v]: [any, any], i) => (
+                                                <Form.Check
+                                                    key={i}
+                                                    type="radio"
+                                                    label={k}
+                                                    name="type"
+                                                    value={v}
+                                                    onChange={handleChange}
+                                                    id={
+                                                        'Addform.formHorizontalRadios' +
+                                                        i
+                                                    }
+                                                />
+                                            )
+                                        )}
                                     </div>
                                     <Form.Control.Feedback
                                         type="invalid"
