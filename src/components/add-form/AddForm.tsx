@@ -54,7 +54,7 @@ function AddForm(props: any) {
     function getCustomerTypes() {
         _axios.get('customer-types').then((t) => {
             const r = t.data.reduce((acc: any, curr: any) => {
-                acc[curr.Name] = curr.CustomerStatusID
+                acc[curr.Name] = curr.CustomerTypeID
                 return acc
             }, {})
             setTypes(r)
@@ -64,7 +64,7 @@ function AddForm(props: any) {
     function getCustomerStatus() {
         _axios.get('customer-status').then((s: any) => {
             const r = s.data.reduce((acc: any, curr: any) => {
-                acc[curr.Name] = curr.CustomerTypeID
+                acc[curr.Name] = curr.CustomerStatusID
                 return acc
             }, {})
             setStatus(r)

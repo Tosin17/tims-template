@@ -2,7 +2,8 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import DatePicker from 'react-datepicker'
 import { Form, Row, Col, Button } from 'react-bootstrap'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { _axios } from '../../utils/api'
 import 'react-datepicker/dist/react-datepicker.css'
 import './SearchForm.css'
 
@@ -18,6 +19,41 @@ const schema = yup.object().shape({
 
 function SearchForm(props: any) {
     const [startDate, setStartDate] = useState()
+    const [status, setStatus] = useState({
+        'Status A': '2',
+        'Status B': '1',
+        'N/A': 0,
+    } as any)
+
+    const [type, setTypes] = useState({
+        'Type A': '2',
+        'Type B': '1',
+    } as any)
+
+    function getCustomerTypes() {
+        _axios.get('customer-types').then((t) => {
+            const r = t.data.reduce((acc: any, curr: any) => {
+                acc[curr.Name] = curr.CustomerTypeID
+                return acc
+            }, {})
+            setTypes(r)
+        })
+    }
+
+    function getCustomerStatus() {
+        _axios.get('customer-status').then((s: any) => {
+            const r = s.data.reduce((acc: any, curr: any) => {
+                acc[curr.Name] = curr.CustomerStatusID
+                return acc
+            }, {})
+            setStatus(r)
+        })
+    }
+
+    useEffect(() => {
+        getCustomerTypes()
+        getCustomerStatus()
+    }, [])
 
     return (
         <Formik
@@ -138,10 +174,14 @@ function SearchForm(props: any) {
                                     onChange={handleChange}
                                     isValid={touched.status && !errors.status}
                                 >
-                                    <option>Select status</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">None</option>
+                                    {Object.entries(status).map(
+                                        ([k, v]: [any, any], i) => (
+                                            <option key={i} value={v}>
+                                                {k}
+                                            </option>
+                                        )
+                                    )}
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group as={Col} md="2">
@@ -150,24 +190,22 @@ function SearchForm(props: any) {
                                     className="d-flex justify-content-between"
                                     style={{ width: '110%' }}
                                 >
-                                    <Form.Check
-                                        type="radio"
-                                        label="Blank"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios1"
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Type A"
-                                        name="formHorizontalRadios"
-                                        id="searchForm.formHorizontalRadios2"
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Type B"
-                                        name="formHorizontalRadios"
-                                        id="searchForm.formHorizontalRadios3"
-                                    />
+                                    {Object.entries(type).map(
+                                        ([k, v]: [any, any], i) => (
+                                            <Form.Check
+                                                key={i}
+                                                type="radio"
+                                                label={k}
+                                                name="type"
+                                                value={v}
+                                                onChange={handleChange}
+                                                id={
+                                                    'Addform.formHorizontalRadios' +
+                                                    i
+                                                }
+                                            />
+                                        )
+                                    )}
                                 </div>
                             </Form.Group>
                             <Form.Group as={Col} md="1">
