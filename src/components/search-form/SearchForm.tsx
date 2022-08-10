@@ -78,7 +78,12 @@ function SearchForm(props: any) {
                 isValid,
                 errors,
             }) => (
-                <Form noValidate onSubmit={handleSubmit} className="pt-4">
+                <Form
+                    noValidate
+                    onSubmit={handleSubmit}
+                    onChange={(_) => props.filterCustomers(values)}
+                    className="pt-4"
+                >
                     <fieldset className="form-group border p-3">
                         <legend>Search</legend>
                         <Button

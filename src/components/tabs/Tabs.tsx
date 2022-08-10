@@ -29,6 +29,9 @@ function CustTab() {
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
+    const filterCustomers = (e: any) => {
+        console.log(e)
+    }
 
     ;(document as any).addEventListener('EditModalForm', ({ detail }: any) => {
         handleShow()
@@ -51,7 +54,10 @@ function CustTab() {
                     <Button variant="primary" onClick={handleShow}>
                         Add
                     </Button>{' '}
-                    <SearchForm customers="customers" />
+                    <SearchForm
+                        customers={customers}
+                        filterCustomers={filterCustomers}
+                    />
                     {show ? '' : <AddForm getCustomers={getCustomers} />}
                     <UsersList data={customers} />
                 </Tab>
